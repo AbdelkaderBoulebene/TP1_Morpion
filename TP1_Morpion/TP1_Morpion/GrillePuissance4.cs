@@ -18,42 +18,27 @@ namespace TP1_Morpion
             grillePuissance4 = new int[ligne, colonne];
         }
 
-        public bool CaseVide(int ligne, int colonne)
+        public bool CaseVide(int colonne)
         {
             bool reponse = false;
 
-            if (grillePuissance4[ligne, colonne] == 0)
+            for (int ligne = grillePuissance4.GetLength(0) -1; ligne >= 0; ligne--)
             {
-                reponse = true;
+                if (grillePuissance4[ligne, colonne] == 0)
+                {
+                    reponse = true;
+                    break;
+                }
             }
-            else
+
+            if (reponse == false)
             {
-                Console.WriteLine("Case non vide.");
+                Console.WriteLine("Colonne remplie.");
             }
 
             return reponse;
         }
 
-        public int SaisirLigne()
-        {
-            int ligne;
-
-            Console.WriteLine("Veuillez saisir la ligne.");
-            ligne = Convert.ToInt32(Console.ReadLine());
-
-            while (ligne < 1 || ligne > grillePuissance4.GetLength(0))
-            {
-                if (ligne < 1 || ligne > grillePuissance4.GetLength(0))
-                {
-                    Console.WriteLine("Ligne fausse.");
-                }
-
-                Console.WriteLine("Veuillez saisir la ligne.");
-                ligne = Convert.ToInt32(Console.ReadLine());
-            }
-
-            return ligne - 1;
-        }
         public int SaisirColonne()
         {
             int colonne;
@@ -79,6 +64,7 @@ namespace TP1_Morpion
             int ligne;
             int colonne;
             int jeton;
+            int tailleColonne = grillePuissance4.GetLength(1);
 
             if (nbTourJ1 <= nbTourJ2)
             {
@@ -92,17 +78,22 @@ namespace TP1_Morpion
             }
 
             Console.WriteLine("Tour du joueur " + jeton);
-
-            ligne = SaisirLigne();
             colonne = SaisirColonne();
 
-            while (CaseVide(ligne, colonne) == false)
+            while (CaseVide(colonne) == false)
             {
-                ligne = SaisirLigne();
                 colonne = SaisirColonne();
             }
 
-            grillePuissance4[ligne, colonne] = jeton;
+            for (ligne = grillePuissance4.GetLength(0) -1; ligne >= 0; ligne--)
+            {
+                if (grillePuissance4[ligne, colonne] == 0)
+                {
+                    grillePuissance4[ligne, colonne] = jeton;
+                    break;
+                }
+            }
+
         }
 
         public bool LigneComplete(int joueur)
